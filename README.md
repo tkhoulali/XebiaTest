@@ -42,3 +42,9 @@ On attend le résultat suivant (position finale des tondeuses) :
 5 1 E
 
 NB : Les données en entrée peuvent être injectée sous une autre forme qu'un fichier (par exemple un test automatisé).
+
+# Mots clès : 
+
+TDD, MAVEN, EclEmma JAVACOCO, GIT, Executor Framework.
+
+
