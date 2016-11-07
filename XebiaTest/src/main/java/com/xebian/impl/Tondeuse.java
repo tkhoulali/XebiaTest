@@ -95,7 +95,7 @@ public class Tondeuse implements Callable<Tondeuse>  {
 			d = Direction.valueOf(str);
 			
 			if (d == Direction.A) {
-				setCommandeA();
+				setActionCommande();
 			} else {
 				o = this.getOrientation();
 				switch (o) {
@@ -136,7 +136,7 @@ public class Tondeuse implements Callable<Tondeuse>  {
 	 * w = (x-1, y)
 	 * E = (x+1, y)
 	 */
-	public void setCommandeA() {
+	public void setActionCommande() {
 		Orientation o = this.getOrientation();
 		Surface s = this.getSurface();
 		switch (o) {

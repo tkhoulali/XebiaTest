@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.xebian.impl.Orientation;
 import com.xebian.impl.Surface;
 import com.xebian.impl.Tondeuse;
+import com.xebian.services.ServiceException;
 import com.xebian.services.TasksService;
 
 /**
@@ -23,7 +24,7 @@ public class TestTondeuse {
 
 
 	@Test
-	public void testInitTondeuse() {
+	public void testInitTondeuse() throws ServiceException {
 		Surface surface = new Surface(10, 10);
 		Tondeuse tondeuse = new Tondeuse(10, 10, Orientation.N, surface, "");
 		assertEquals(tondeuse.getPositionX(), 10);
@@ -33,7 +34,7 @@ public class TestTondeuse {
 
 	// execution of multiple tasks  sequentially 
 	@Test
-	public void testCommandeMultipleTondeuses() throws InterruptedException {
+	public void testCommandeMultipleTondeuses() throws InterruptedException, ServiceException {
 		
 		// One thread to make a sequentiel execution 
 		ExecutorService executor = Executors.newSingleThreadExecutor(); 
@@ -66,7 +67,7 @@ public class TestTondeuse {
 
 	// test of one task
 	@Test
-	public void testCommandeOneTondeuse() throws InterruptedException {
+	public void testCommandeOneTondeuse() throws InterruptedException, ServiceException {
 		ExecutorService executor = Executors.newFixedThreadPool(1);
 		List<Callable<Tondeuse>> taches = new ArrayList<Callable<Tondeuse>>();
 		Surface surface = new Surface(5, 5);

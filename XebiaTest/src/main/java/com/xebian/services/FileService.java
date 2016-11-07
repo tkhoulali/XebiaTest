@@ -19,9 +19,10 @@ import com.xebian.impl.Tondeuse;
  */
 public class FileService {
 
-	public static List<Callable<Tondeuse>> executeFile(String path) throws Exception {
+	public static List<Callable<Tondeuse>> executeFile(String path) throws ServiceException {
+		
+		if(path == null) throw new ServiceException("File name can't be null", "NULL_FILE_NAME");
 		BufferedReader br = null;
-
 		List<Callable<Tondeuse>> taches = new ArrayList<Callable<Tondeuse>>();
 
 		try {
@@ -34,7 +35,7 @@ public class FileService {
 			if ((line = br.readLine()) != null && !line.isEmpty()) {
 				s = createSurface(line);
 			} else {
-				throw new Exception("Empty File detected !!");
+				throw new ServiceException("No surface line detected !! ", "Empty_FILE_EXCEPTION");
 			}
 
 			while ((line = br.readLine()) != null) {
@@ -42,22 +43,23 @@ public class FileService {
 				// Tondeuse line
 				String commandes = br.readLine();
 				if (commandes == null || commandes.isEmpty()) {
-					throw new Exception("File format not accepted : no commandes detected after " + line);
+					throw new ServiceException("File format not accepted, no commandes detected after --> " + line, "FILE_Format_EXCEPTION");
 				}
 				Tondeuse t = createTondeuse(line, commandes, s);
 				taches.add(t);
 			}
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			 throw new ServiceException(e.getMessage(),"FILE_NOT_FOUND_EXCEPTION");
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e.getMessage(),"FILE_INPUT_OUTPUT_EXCEPTION");
 		} finally {
 			if (br != null) {
 				try {
-					br.close();
+					if(br!=null)
+						br.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					throw new ServiceException(e.getMessage(),"FILE_CLOSE_EXCEPTION");
 				}
 			}
 		}
@@ -74,7 +76,7 @@ public class FileService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Tondeuse createTondeuse(String line, String commandes, Surface s) throws Exception {
+	public static Tondeuse createTondeuse(String line, String commandes, Surface s) throws ServiceException {
 		String[] tondeuseLine = line.split(" ");
 		int xt = Integer.parseInt(tondeuseLine[0]);
 		int yt = Integer.parseInt(tondeuseLine[1]);
@@ -82,14 +84,14 @@ public class FileService {
 
 		// check orientation
 		if (!isOrientation(tondeuseLine[2])) {
-			throw new IllegalArgumentException("Orientation :" + tondeuseLine[2] + " is not correct !!");
+			throw new ServiceException("Orientation :" + tondeuseLine[2] + " is not correct !!","FILE_NOT_FOUND_EXCEPTION");
 		} else {
 			o = Orientation.valueOf(tondeuseLine[2]);
 		}
 
 		// check commandes
 		if (!checkCommandes(commandes)) {
-			throw new IllegalArgumentException("Instructions :" + commandes + " are not correct !!");
+			throw new ServiceException("Instructions :" + commandes + " are not correct !!", "FILE_INSTRUCTIONS_EXCEPTION");
 		}
 		return new Tondeuse(xt, yt, o, s, commandes);
 	}
@@ -99,12 +101,20 @@ public class FileService {
 	 * 
 	 * @param line
 	 * @return
+	 * @throws ServiceException 
 	 */
-	public static Surface createSurface(String line) {
+	public static Surface createSurface(String line) throws ServiceException {
 		String[] sufaceLine = line.split(" ");
-		int x = Integer.parseInt(sufaceLine[0]);
-		int y = Integer.parseInt(sufaceLine[1]);
+		int x = 0;
+		int y = 0;
+		try {
+			x = Integer.parseInt(sufaceLine[0]);
+			y = Integer.parseInt(sufaceLine[1]);
+		} catch (NumberFormatException e) {
+			throw new ServiceException("params not int detected : "+x+" / "+y,"NUMBER_FORMAT_EXCEPTION");
+		}
 		return new Surface(x, y);
+		
 	}
 
 	public static boolean checkCommandes(String line) {
