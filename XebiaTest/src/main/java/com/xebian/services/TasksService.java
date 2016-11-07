@@ -12,30 +12,30 @@ import java.util.concurrent.Future;
 import com.xebian.impl.Tondeuse;
 
 /**
- * @author TK
- * TasksService to manage execution of tasks
+ * @author TK TasksService to manage execution of tasks
  */
 public class TasksService {
-	
+
 	/**
 	 * @param executor
 	 * @param tasks
-	 * @param indice: 
+	 * @param indice:
 	 * @return : list of tondeuses after execution.
 	 */
-	public static List<Tondeuse> execute(final ExecutorService executor, List<Callable<Tondeuse>> tasks, String indice) {
-		System.out.println(indice); // just to trace invocation source 
-		
+	public static List<Tondeuse> execute(final ExecutorService executor, List<Callable<Tondeuse>> tasks,
+			String indice) {
+		System.out.println(indice); // just to trace invocation source
+
 		// termination service
 		CompletionService<Tondeuse> completionService = new ExecutorCompletionService<Tondeuse>(executor);
 
-		// a list of Future to collect results 
+		// a list of Future to collect results
 		List<Future<Tondeuse>> futures = new ArrayList<Future<Tondeuse>>();
-		
+
 		List<Tondeuse> resultTondeuses = new ArrayList<Tondeuse>();
-		
+
 		Tondeuse resT = null;
-		
+
 		try {
 			// passing tasks to the executor and getting the future
 			for (Callable<Tondeuse> t : tasks) {
@@ -52,8 +52,8 @@ public class TasksService {
 					if (resT != null) {
 						resultTondeuses.add(resT);
 						// we print the result task result
-						System.out.println(resT.getPositionX() + "," + resT.getPositionY() + ","
-								+ resT.getOrientation());
+						System.out.println(resT.getPositionX() + "," + resT.getPositionY() + "," 
+						+ resT.getOrientation());
 					}
 				} catch (ExecutionException ee) {
 					ee.printStackTrace();
@@ -66,5 +66,5 @@ public class TasksService {
 		}
 		return resultTondeuses;
 	}
-	
+
 }

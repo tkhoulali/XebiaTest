@@ -3,19 +3,19 @@ package com.xebian.services;
 public class ServiceException extends Exception {
 	private static final long serialVersionUID = 1987435874401611658L;
 
-	private String errorCode="Unknown_Exception";
+	private String errorCode = "Unknown_Exception";
 
-	public ServiceException(String message, String errorCode){
+	public ServiceException(String message, String errorCode) {
 		super(message);
-		this.errorCode=errorCode;
+		this.errorCode = errorCode;
 	}
 
-	public String getErrorCode(){
+	public String getErrorCode() {
 		return this.errorCode;
 	}
-	
+
 	public static void processFileErrorCodes(ServiceException e) throws ServiceException {
-		switch(e.getErrorCode()){
+		switch (e.getErrorCode()) {
 		case "Empty_FILE_EXCEPTION":
 			System.out.println("Empty File detected.");
 			break;
@@ -35,13 +35,13 @@ public class ServiceException extends Exception {
 			System.out.println("File insctructions line not accepted.");
 			break;
 		default:
-			System.out.println("Unknown exception occured : "+e.getMessage()); //log it for further debugging
+			System.out.println("Unknown exception occured : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void processSurfaceErrorCodes(ServiceException e) throws ServiceException {
-		switch(e.getErrorCode()){
+		switch (e.getErrorCode()) {
 		case "ILLEGAL_ARGUMENT_EXCEPTION":
 			System.out.println("Surface arguments not correct.");
 			break;
@@ -52,7 +52,7 @@ public class ServiceException extends Exception {
 			System.out.println("params not allowed.");
 			break;
 		default:
-			System.out.println("Unknown exception occured : "+e.getMessage()); //log it for further debugging
+			System.out.println("Unknown exception occured : " + e.getMessage());
 			e.printStackTrace();
 		}
 	}

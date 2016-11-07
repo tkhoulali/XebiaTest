@@ -22,7 +22,6 @@ import com.xebian.services.TasksService;
  */
 public class TestTondeuse {
 
-
 	@Test
 	public void testInitTondeuse() throws ServiceException {
 		Surface surface = new Surface(10, 10);
@@ -32,12 +31,12 @@ public class TestTondeuse {
 		assertEquals(tondeuse.getOrientation(), Orientation.N);
 	}
 
-	// execution of multiple tasks  sequentially 
+	// execution of multiple tasks sequentially
 	@Test
 	public void testCommandeMultipleTondeuses() throws InterruptedException, ServiceException {
-		
-		// One thread to make a sequentiel execution 
-		ExecutorService executor = Executors.newSingleThreadExecutor(); 
+
+		// One thread to make a sequentiel execution
+		ExecutorService executor = Executors.newSingleThreadExecutor();
 		List<Callable<Tondeuse>> taches = new ArrayList<Callable<Tondeuse>>();
 		Surface surface = new Surface(5, 5);
 
@@ -54,7 +53,7 @@ public class TestTondeuse {
 		assertEquals(tondeuse.getOrientation(), Orientation.N);
 		assertEquals(tondeuse.getPositionX(), 1);
 		assertEquals(tondeuse.getPositionY(), 3);
-		
+
 		assertEquals(tondeuse2.getOrientation(), Orientation.E);
 		assertEquals(tondeuse2.getPositionX(), 5);
 		assertEquals(tondeuse2.getPositionY(), 1);
@@ -72,10 +71,10 @@ public class TestTondeuse {
 		List<Callable<Tondeuse>> taches = new ArrayList<Callable<Tondeuse>>();
 		Surface surface = new Surface(5, 5);
 		Tondeuse tondeuse = new Tondeuse(3, 3, Orientation.E, surface, "AADAADADDA");
-		
+
 		taches.add(tondeuse);
 		TasksService.execute(executor, taches, "testCommandeOneTondeuse");
-		
+
 		assertEquals(tondeuse.getOrientation(), Orientation.E);
 		assertEquals(tondeuse.getPositionX(), 5);
 		assertEquals(tondeuse.getPositionY(), 1);

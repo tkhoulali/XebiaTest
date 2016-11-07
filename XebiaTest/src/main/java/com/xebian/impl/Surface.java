@@ -8,12 +8,12 @@ import com.xebian.services.ServiceException;
 public class Surface {
 
 	int matrice[][];
-	
+
 	public Surface(int ligne, int colonne) throws ServiceException {
 		try {
 			this.matrice = new int[ligne][colonne];
 		} catch (IllegalArgumentException e) {
-			throw new ServiceException("invalid params : "+ligne+" / "+colonne,"ILLEGAL_ARGUMENT_EXCEPTION");
+			throw new ServiceException("invalid params : " + ligne + " / " + colonne, "ILLEGAL_ARGUMENT_EXCEPTION");
 		} catch (NegativeArraySizeException e) {
 			throw new ServiceException("params should be positive", "NEGATIVE_SIZE_EXCEPTION");
 		}
@@ -21,6 +21,7 @@ public class Surface {
 
 	/**
 	 * check if matrice[x][y] is correct
+	 * 
 	 * @param x
 	 * @param y
 	 * @return boolean

@@ -2,24 +2,24 @@ package com.xebian.impl;
 
 import java.util.concurrent.Callable;
 
-
 /**
- * @author TK
- * Tondeuse Object with manipulation methods
+ * @author TK Tondeuse Object with manipulation methods
  */
 
-public class Tondeuse implements Callable<Tondeuse>  {
+public class Tondeuse implements Callable<Tondeuse> {
 	int x, y;
 	Orientation orientation;
 	Surface surface;
 	String commandes;
 
-
 	/**
-	 * @param x : position X
-	 * @param y : position Y
-	 * @param orientation : Enum : N, W, S, E
-	 * @param surface 
+	 * @param x
+	 *            : position X
+	 * @param y
+	 *            : position Y
+	 * @param orientation
+	 *            : Enum : N, W, S, E
+	 * @param surface
 	 * @param commandes
 	 */
 	public Tondeuse(int x, int y, Orientation orientation, Surface surface, String commandes) {
@@ -78,22 +78,22 @@ public class Tondeuse implements Callable<Tondeuse>  {
 
 	/**
 	 * set commande to tandeuse.
+	 * 
 	 * @param t
-	 * @param d : Enum :  G gauche, D droite, A avancer
-	 * Algo : 
-	 * N+G = W, N+D = E, S+G= E, S+D = W
-	 * W+G = S, W+D = N, E+G = N, E+D = S
+	 * @param d
+	 *            : Enum : G gauche, D droite, A avancer Algo : N+G = W, N+D =
+	 *            E, S+G= E, S+D = W W+G = S, W+D = N, E+G = N, E+D = S
 	 */
 	public void setCommande() {
 
 		Direction d;
 		Orientation o;
 		String[] orders = this.commandes.split("");
-		
-		for(String str : orders) {
+
+		for (String str : orders) {
 
 			d = Direction.valueOf(str);
-			
+
 			if (d == Direction.A) {
 				setActionCommande();
 			} else {
@@ -130,11 +130,7 @@ public class Tondeuse implements Callable<Tondeuse>  {
 
 	/**
 	 * @param t
-	 * Algo :
-	 * N = (x, y+1)
-	 * S = (x, y-1)
-	 * w = (x-1, y)
-	 * E = (x+1, y)
+	 *            Algo : N = (x, y+1) S = (x, y-1) w = (x-1, y) E = (x+1, y)
 	 */
 	public void setActionCommande() {
 		Orientation o = this.getOrientation();
